@@ -1,0 +1,387 @@
+/* Game-specific CSS styles */
+
+/* Go Fish Game Styles */
+.game-board.go-fish {
+    background: linear-gradient(135deg, #2c5530 0%, #1a3d1f 100%);
+    border-radius: var(--radius-large);
+    padding: var(--spacing-xl);
+}
+
+.go-fish-opponent {
+    grid-area: opponent-hand;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.go-fish-deck {
+    grid-area: deck;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.go-fish-discard {
+    grid-area: discard;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.go-fish-player {
+    grid-area: player-hand;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* War Game Styles */
+.game-board.war {
+    background: linear-gradient(135deg, #8b0000 0%, #4d0000 100%);
+    border-radius: var(--radius-large);
+    padding: var(--spacing-xl);
+    color: white;
+}
+
+.war-opponent-card {
+    grid-area: opponent-card;
+}
+
+.war-opponent-score {
+    grid-area: opponent-score;
+}
+
+.war-deck {
+    grid-area: deck;
+}
+
+.war-vs {
+    grid-area: vs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-2xl);
+    font-weight: bold;
+}
+
+.war-player-card {
+    grid-area: player-card;
+}
+
+.war-player-score {
+    grid-area: player-score;
+}
+
+.battle-area {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--spacing-lg);
+}
+
+.war-card-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Memory Game Styles */
+.game-board.memory {
+    background: linear-gradient(135deg, #4a90e2 0%, #2c5aa0 100%);
+    border-radius: var(--radius-large);
+    padding: var(--spacing-xl);
+}
+
+.memory-score {
+    grid-area: score;
+}
+
+.memory-timer {
+    grid-area: timer;
+}
+
+.memory-cards {
+    grid-area: cards;
+    display: grid;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.memory-grid-4x3 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.memory-grid-4x4 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.memory-grid-6x4 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.memory-card {
+    aspect-ratio: 2/3;
+    cursor: pointer;
+    position: relative;
+}
+
+.memory-card.matched {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.memory-card.flipped {
+    pointer-events: none;
+}
+
+/* Game Status and Controls */
+.game-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-medium);
+    margin-bottom: var(--spacing-lg);
+    color: white;
+}
+
+.game-score {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+}
+
+.game-timer {
+    font-family: monospace;
+    font-size: var(--font-size-lg);
+}
+
+.turn-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--secondary-color);
+    color: white;
+    border-radius: var(--radius-large);
+    font-weight: 500;
+}
+
+.turn-indicator.active {
+    background: var(--accent-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Card Selection and Highlighting */
+.card.selectable {
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.card.selectable:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.card.highlighted {
+    box-shadow: 0 0 0 3px var(--warning-color);
+    transform: translateY(-3px);
+}
+
+/* Game Actions */
+.game-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-top: var(--spacing-lg);
+}
+
+.action-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-medium);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.action-button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.action-button:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Player Information */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-medium);
+    color: white;
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+}
+
+.player-cards-count {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+}
+
+.player-sets {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.set-indicator {
+    width: 20px;
+    height: 20px;
+    background: var(--success-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+    color: white;
+}
+
+/* Game Messages */
+.game-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-large);
+    text-align: center;
+    z-index: var(--z-modal);
+    min-width: 300px;
+}
+
+.game-message.success {
+    background: rgba(39, 174, 96, 0.9);
+}
+
+.game-message.error {
+    background: rgba(231, 76, 60, 0.9);
+}
+
+.game-message h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: var(--font-size-2xl);
+}
+
+.game-message p {
+    margin: 0;
+    font-size: var(--font-size-lg);
+}
+
+/* Responsive Game Layouts */
+@media (max-width: 768px) {
+    .game-board.go-fish {
+        grid-template-areas: 
+            "opponent-hand"
+            "deck"
+            "discard"
+            "player-hand";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .game-board.war {
+        grid-template-areas: 
+            "opponent-card opponent-score"
+            "deck vs"
+            "player-card player-score";
+        gap: var(--spacing-md);
+    }
+
+    .game-board.memory {
+        padding: var(--spacing-md);
+    }
+
+    .memory-cards {
+        padding: var(--spacing-md);
+        gap: var(--spacing-xs);
+    }
+
+    .game-actions {
+        flex-direction: column;
+    }
+
+    .game-status {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        margin: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+
+    .memory-grid-6x4 {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+    }
+
+    .card {
+        width: 45px;
+        height: 64px;
+    }
+
+    .game-message {
+        margin: var(--spacing-md);
+        min-width: auto;
+        width: calc(100% - 2rem);
+    }
+}
+
+/* Dark mode adjustments for games */
+@media (prefers-color-scheme: dark) {
+    .game-board.go-fish {
+        background: linear-gradient(135deg, #1a4d1f 0%, #0f2912 100%);
+    }
+
+    .game-board.war {
+        background: linear-gradient(135deg, #6b0000 0%, #3d0000 100%);
+    }
+
+    .game-board.memory {
+        background: linear-gradient(135deg, #2c5aa0 0%, #1a3d6b 100%);
+    }
+}

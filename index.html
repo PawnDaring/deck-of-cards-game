@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck of Cards - Game Collection</title>
+    
+    <!-- Preconnect for potential CDN resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/games.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Meta tags for PWA -->
+    <meta name="description" content="Classic card games collection - Go Fish, War, and Memory matching game">
+    <meta name="theme-color" content="#2c3e50">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/ui/favicon.ico">
+</head>
+<body>
+    <!-- Main Application Container -->
+    <div id="app" class="app-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="title-icon">🎴</span>
+                    Deck of Cards
+                </h1>
+                <nav class="header-nav">
+                    <button id="settings-btn" class="nav-btn" aria-label="Settings">
+                        <span class="nav-icon">⚙️</span>
+                    </button>
+                    <button id="stats-btn" class="nav-btn" aria-label="Statistics">
+                        <span class="nav-icon">📊</span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Game Selection Screen -->
+            <section id="game-selection" class="screen active">
+                <div class="selection-container">
+                    <h2 class="selection-title">Choose Your Game</h2>
+                    <div class="games-grid">
+                        
+                        <!-- Go Fish Game Card -->
+                        <div class="game-card" data-game="go-fish">
+                            <div class="game-card-header">
+                                <div class="game-icon">🐟</div>
+                                <h3 class="game-title">Go Fish</h3>
+                            </div>
+                            <div class="game-description">
+                                <p>Collect sets of four cards by asking other players.</p>
+                                <ul class="game-features">
+                                    <li>2-4 Players</li>
+                                    <li>AI Opponents</li>
+                                    <li>Strategic Gameplay</li>
+                                </ul>
+                            </div>
+                            <div class="game-stats">
+                                <span class="difficulty">Difficulty: Medium</span>
+                                <span class="duration">~10-15 min</span>
+                            </div>
+                            <button class="play-btn">Play Now</button>
+                        </div>
+
+                        <!-- War Game Card -->
+                        <div class="game-card" data-game="war">
+                            <div class="game-card-header">
+                                <div class="game-icon">⚔️</div>
+                                <h3 class="game-title">War</h3>
+                            </div>
+                            <div class="game-description">
+                                <p>Battle with cards - highest card wins the round!</p>
+                                <ul class="game-features">
+                                    <li>2 Players</li>
+                                    <li>Quick Rounds</li>
+                                    <li>Pure Luck</li>
+                                </ul>
+                            </div>
+                            <div class="game-stats">
+                                <span class="difficulty">Difficulty: Easy</span>
+                                <span class="duration">~5-10 min</span>
+                            </div>
+                            <button class="play-btn">Play Now</button>
+                        </div>
+
+                        <!-- Memory Game Card -->
+                        <div class="game-card" data-game="memory">
+                            <div class="game-card-header">
+                                <div class="game-icon">🧠</div>
+                                <h3 class="game-title">Memory Match</h3>
+                            </div>
+                            <div class="game-description">
+                                <p>Find matching pairs of cards in this classic memory game.</p>
+                                <ul class="game-features">
+                                    <li>1-4 Players</li>
+                                    <li>Multiple Difficulties</li>
+                                    <li>Brain Training</li>
+                                </ul>
+                            </div>
+                            <div class="game-stats">
+                                <span class="difficulty">Difficulty: Variable</span>
+                                <span class="duration">~3-8 min</span>
+                            </div>
+                            <button class="play-btn">Play Now</button>
+                        </div>
+
+                        <!-- Deck Browser Card -->
+                        <div class="game-card" data-game="deck-browser">
+                            <div class="game-card-header">
+                                <div class="game-icon">🔍</div>
+                                <h3 class="game-title">Browse Deck</h3>
+                            </div>
+                            <div class="game-description">
+                                <p>Explore all 52 cards in the deck with sorting and filtering options.</p>
+                                <ul class="game-features">
+                                    <li>View All Cards</li>
+                                    <li>Sort & Filter</li>
+                                    <li>Card Details</li>
+                                </ul>
+                            </div>
+                            <div class="game-stats">
+                                <span class="difficulty">Difficulty: None</span>
+                                <span class="duration">Browse freely</span>
+                            </div>
+                            <button class="play-btn">Browse Now</button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Setup Screen -->
+            <section id="game-setup" class="screen">
+                <div class="setup-container">
+                    <button id="back-to-selection" class="back-btn">← Back to Games</button>
+                    <h2 id="setup-title" class="setup-title">Game Setup</h2>
+                    <div id="setup-content" class="setup-content">
+                        <!-- Dynamic content based on selected game -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Play Screen -->
+            <section id="game-play" class="screen">
+                <div class="game-container">
+                    <div class="game-header">
+                        <button id="game-menu-btn" class="menu-btn">Menu</button>
+                        <div id="game-info" class="game-info">
+                            <span id="current-game" class="current-game"></span>
+                            <span id="game-status" class="game-status"></span>
+                        </div>
+                        <button id="game-pause-btn" class="pause-btn">Pause</button>
+                    </div>
+                    
+                    <div id="game-board" class="game-board">
+                        <!-- Dynamic game board content -->
+                    </div>
+                    
+                    <div id="game-controls" class="game-controls">
+                        <!-- Dynamic control buttons -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Screen -->
+            <section id="settings" class="screen">
+                <div class="settings-container">
+                    <button id="close-settings" class="back-btn">← Back</button>
+                    <h2 class="settings-title">Settings</h2>
+                    <div class="settings-content">
+                        
+                        <div class="setting-group">
+                            <h3>Audio</h3>
+                            <div class="setting-item">
+                                <label for="sound-effects">Sound Effects</label>
+                                <input type="range" id="sound-effects" min="0" max="100" value="75">
+                                <span class="setting-value">75%</span>
+                            </div>
+                            <div class="setting-item">
+                                <label for="music-volume">Background Music</label>
+                                <input type="range" id="music-volume" min="0" max="100" value="50">
+                                <span class="setting-value">50%</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h3>Graphics</h3>
+                            <div class="setting-item">
+                                <label for="animation-speed">Animation Speed</label>
+                                <select id="animation-speed">
+                                    <option value="slow">Slow</option>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="fast">Fast</option>
+                                    <option value="instant">Instant</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="card-back">Card Back Design</label>
+                                <select id="card-back">
+                                    <option value="classic" selected>Classic Blue</option>
+                                    <option value="red">Classic Red</option>
+                                    <option value="green">Green Pattern</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h3>Gameplay</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="auto-play" checked>
+                                    Auto-play obvious moves
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="confirm-moves">
+                                    Confirm important moves
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Screen -->
+            <section id="statistics" class="screen">
+                <div class="stats-container">
+                    <button id="close-stats" class="back-btn">← Back</button>
+                    <h2 class="stats-title">Statistics</h2>
+                    <div class="stats-content">
+                        
+                        <div class="stats-overview">
+                            <div class="stat-card">
+                                <div class="stat-number" id="total-games">0</div>
+                                <div class="stat-label">Total Games</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="games-won">0</div>
+                                <div class="stat-label">Games Won</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="win-rate">0%</div>
+                                <div class="stat-label">Win Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="play-time">0m</div>
+                                <div class="stat-label">Play Time</div>
+                            </div>
+                        </div>
+
+                        <div class="game-stats-details">
+                            <h3>Game-Specific Statistics</h3>
+                            <div id="detailed-stats" class="detailed-stats">
+                                <!-- Dynamic content for each game's statistics -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deck Browser Screen -->
+            <section id="deck-browser" class="screen">
+                <div class="browser-container">
+                    <button id="close-browser" class="back-btn">← Back to Games</button>
+                    <h2 class="browser-title">🔍 Browse the Deck</h2>
+                    
+                    <div class="browser-controls">
+                        <div class="filter-controls">
+                            <label for="suit-filter">Filter by Suit:</label>
+                            <select id="suit-filter">
+                                <option value="all">All Suits</option>
+                                <option value="spades">♠ Spades</option>
+                                <option value="hearts">♥ Hearts</option>
+                                <option value="diamonds">♦ Diamonds</option>
+                                <option value="clubs">♣ Clubs</option>
+                            </select>
+
+                            <label for="rank-filter">Filter by Rank:</label>
+                            <select id="rank-filter">
+                                <option value="all">All Ranks</option>
+                                <option value="A">Ace</option>
+                                <option value="2,3,4,5,6,7,8,9,10">Number Cards (2-10)</option>
+                                <option value="J,Q,K">Face Cards (J,Q,K)</option>
+                            </select>
+
+                            <label for="color-filter">Filter by Color:</label>
+                            <select id="color-filter">
+                                <option value="all">All Colors</option>
+                                <option value="red">Red Cards</option>
+                                <option value="black">Black Cards</option>
+                            </select>
+                        </div>
+
+                        <div class="sort-controls">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by">
+                                <option value="suit-rank">Suit then Rank</option>
+                                <option value="rank-suit">Rank then Suit</option>
+                                <option value="color-suit">Color then Suit</option>
+                                <option value="shuffle">Random Order</option>
+                            </select>
+
+                            <button id="flip-all-btn" class="control-btn">Flip All Face Down</button>
+                            <button id="reset-filters-btn" class="control-btn">Reset Filters</button>
+                        </div>
+                    </div>
+
+                    <div class="deck-info">
+                        <div class="info-stats">
+                            <span id="cards-shown">52</span> of 52 cards shown
+                        </div>
+                        <div class="view-options">
+                            <button id="grid-view-btn" class="view-btn active" data-view="grid">Grid View</button>
+                            <button id="list-view-btn" class="view-btn" data-view="list">List View</button>
+                        </div>
+                    </div>
+
+                    <div id="deck-display" class="deck-grid">
+                        <!-- Cards will be dynamically inserted here -->
+                    </div>
+
+                    <div id="card-details" class="card-details-panel">
+                        <!-- Selected card details will appear here -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2025 Deck of Cards Game Collection | Built with ♠️ ♥️ ♦️ ♣️</p>
+        </footer>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading game...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
