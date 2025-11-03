@@ -176,32 +176,7 @@ export class Memory extends GameEngine {
         const faceEl = document.createElement('div');
         faceEl.className = 'card-face';
         
-        // Try to use background image for card face, fallback to text
-        // Get the face image path directly (not dependent on card.faceUp state)
-        const imagePath = `assets/cards/suits/${card.suit}/${card.rank}.png`;
-        
-        // Create an image element to test if the image exists
-        const testImg = new Image();
-        console.log(`🎴 Memory game attempting to load card image: ${imagePath} for ${card.getDisplayName()}`);
-        
-        testImg.onload = () => {
-            // Image exists, use it as background
-            console.log(`✅ Memory game card image loaded successfully: ${imagePath}`);
-            faceEl.style.backgroundImage = `url('${imagePath}')`;
-            faceEl.style.backgroundSize = 'cover';
-            faceEl.style.backgroundPosition = 'center';
-            faceEl.style.backgroundRepeat = 'no-repeat';
-            faceEl.style.backgroundColor = 'white';
-            // Remove text elements if they exist
-            const textElements = faceEl.querySelectorAll('.card-rank, .card-suit');
-            textElements.forEach(el => el.remove());
-        };
-        testImg.onerror = () => {
-            // Image doesn't exist, keep text fallback
-            console.log(`❌ Memory game card image not found: ${imagePath}`);
-        };
-        
-        // Always create text elements as fallback (will be removed if image loads)
+        // Always create text elements as fallback first
         const rankEl = document.createElement('div');
         rankEl.className = 'card-rank';
         rankEl.textContent = card.rank;
@@ -213,8 +188,8 @@ export class Memory extends GameEngine {
         faceEl.appendChild(rankEl);
         faceEl.appendChild(suitEl);
         
-        // Start loading the image
-        testImg.src = imagePath;
+        // Try to load image with multiple formats
+        this.tryLoadCardImageForMemory(card, faceEl);
 
         // Create card back
         const backEl = document.createElement('div');
@@ -233,6 +208,58 @@ export class Memory extends GameEngine {
         cardEl.addEventListener('click', () => this.handleCardClick(card, cardEl));
 
         return cardEl;
+    }
+
+    /**
+     * Try to load card image with multiple formats (Memory game version)
+     * @param {Card} card - Card object
+     * @param {HTMLElement} faceEl - Card face element
+     */
+    tryLoadCardImageForMemory(card, faceEl) {
+        // Create possible paths for this card
+        const basePath = `assets/cards/suits/${card.suit}/${card.rank}`;
+        const possiblePaths = [
+            `${basePath}.png`,
+            `${basePath}.jpg`, 
+            `${basePath}.jpeg`,
+            `${basePath}.webp`
+        ];
+        
+        let pathIndex = 0;
+        
+        const tryNextPath = () => {
+            if (pathIndex >= possiblePaths.length) {
+                console.log(`❌ No card image found for ${card.getDisplayName()} - using text fallback`);
+                return;
+            }
+            
+            const imagePath = possiblePaths[pathIndex];
+            const testImg = new Image();
+            
+            console.log(`🎴 Memory game trying to load card image: ${imagePath} for ${card.getDisplayName()}`);
+            
+            testImg.onload = () => {
+                console.log(`✅ Memory game card image loaded successfully: ${imagePath}`);
+                faceEl.style.backgroundImage = `url('${imagePath}')`;
+                faceEl.style.backgroundSize = 'cover';
+                faceEl.style.backgroundPosition = 'center';
+                faceEl.style.backgroundRepeat = 'no-repeat';
+                faceEl.style.backgroundColor = 'white';
+                
+                // Remove text elements since we have an image
+                const textElements = faceEl.querySelectorAll('.card-rank, .card-suit');
+                textElements.forEach(el => el.remove());
+            };
+            
+            testImg.onerror = () => {
+                pathIndex++;
+                tryNextPath(); // Try next format
+            };
+            
+            testImg.src = imagePath;
+        };
+        
+        tryNextPath();
     }
 
     /**

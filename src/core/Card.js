@@ -205,6 +205,23 @@ export class Card {
     }
 
     /**
+     * Get all possible image paths for this card (trying different extensions)
+     * @returns {Array<string>} Array of possible image paths
+     */
+    getPossibleImagePaths() {
+        if (!this.faceUp) {
+            return ['assets/cards/back/default.png'];
+        }
+        const basePath = `assets/cards/suits/${this.suit}/${this.rank}`;
+        return [
+            `${basePath}.png`,
+            `${basePath}.jpg`,
+            `${basePath}.jpeg`,
+            `${basePath}.webp`
+        ];
+    }
+
+    /**
      * Compare this card to another card by rank
      * @param {Card} otherCard - The card to compare to
      * @param {boolean} aceHigh - Whether Ace should be high

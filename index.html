@@ -10,11 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Stylesheets -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/games.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
     
     <!-- Meta tags for PWA -->
     <meta name="description" content="Classic card games collection - Go Fish, War, and Memory matching game">
@@ -24,19 +25,15 @@
     <!-- Main Application Container -->
     <div id="app" class="app-container">
         
-        <!-- Header -->
-        <header class="app-header">
+        <!-- Neon Header -->
+        <header class="neon-header">
             <div class="header-content">
-                <h1 class="app-title">
-                    <span class="title-icon">🎴</span>
-                    Deck of Cards
-                </h1>
-                <nav class="header-nav">
-                    <button id="settings-btn" class="nav-btn" aria-label="Settings">
-                        <span class="nav-icon">⚙️</span>
+                <nav class="neon-nav">
+                    <button id="settings-btn" class="neon-btn" aria-label="Settings">
+                        <span class="neon-icon">⚙️</span>
                     </button>
-                    <button id="stats-btn" class="nav-btn" aria-label="Statistics">
-                        <span class="nav-icon">📊</span>
+                    <button id="stats-btn" class="neon-btn" aria-label="Statistics">
+                        <span class="neon-icon">📊</span>
                     </button>
                 </nav>
             </div>
@@ -47,94 +44,40 @@
             
             <!-- Game Selection Screen -->
             <section id="game-selection" class="screen active">
-                <div class="selection-container">
-                    <h2 class="selection-title">Choose Your Game</h2>
-                    <div class="games-grid">
+                <div class="neon-menu-container">
+                    <!-- Orbiting Cards Container -->
+                    <div class="orbiting-cards" id="orbiting-cards">
+                        <!-- Cards will be dynamically generated here -->
+                    </div>
+                    
+                    <!-- Central Menu -->
+                    <div class="central-menu">
+                        <h1 class="neon-title">
+                            <span class="title-glow">MIDNIGHT</span>
+                            <span class="title-cards">CARDS</span>
+                        </h1>
                         
-                        <!-- Go Fish Game Card -->
-                        <div class="game-card" data-game="go-fish">
-                            <div class="game-card-header">
-                                <div class="game-icon">🐟</div>
-                                <h3 class="game-title">Go Fish</h3>
+                        <div class="menu-options">
+                            <!-- Memory Game Option -->
+                            <div class="menu-option" data-game="memory">
+                                <div class="option-glow"></div>
+                                <div class="option-content">
+                                    <div class="option-icon">🧠</div>
+                                    <h3 class="option-title">Memory Match</h3>
+                                    <p class="option-desc">Test your memory with matching pairs</p>
+                                </div>
                             </div>
-                            <div class="game-description">
-                                <p>Collect sets of four cards by asking other players.</p>
-                                <ul class="game-features">
-                                    <li>2-4 Players</li>
-                                    <li>AI Opponents</li>
-                                    <li>Strategic Gameplay</li>
-                                </ul>
+                            
+                            <!-- Deck Browser Option -->
+                            <div class="menu-option" data-game="deck-browser">
+                                <div class="option-glow"></div>
+                                <div class="option-content">
+                                    <div class="option-icon">🔍</div>
+                                    <h3 class="option-title">Explore Deck</h3>
+                                    <p class="option-desc">Browse all 52 cards interactively</p>
+                                </div>
                             </div>
-                            <div class="game-stats">
-                                <span class="difficulty">Difficulty: Medium</span>
-                                <span class="duration">~10-15 min</span>
-                            </div>
-                            <button class="play-btn">Play Now</button>
                         </div>
-
-                        <!-- War Game Card -->
-                        <div class="game-card" data-game="war">
-                            <div class="game-card-header">
-                                <div class="game-icon">⚔️</div>
-                                <h3 class="game-title">War</h3>
-                            </div>
-                            <div class="game-description">
-                                <p>Battle with cards - highest card wins the round!</p>
-                                <ul class="game-features">
-                                    <li>2 Players</li>
-                                    <li>Quick Rounds</li>
-                                    <li>Pure Luck</li>
-                                </ul>
-                            </div>
-                            <div class="game-stats">
-                                <span class="difficulty">Difficulty: Easy</span>
-                                <span class="duration">~5-10 min</span>
-                            </div>
-                            <button class="play-btn">Play Now</button>
-                        </div>
-
-                        <!-- Memory Game Card -->
-                        <div class="game-card" data-game="memory">
-                            <div class="game-card-header">
-                                <div class="game-icon">🧠</div>
-                                <h3 class="game-title">Memory Match</h3>
-                            </div>
-                            <div class="game-description">
-                                <p>Find matching pairs of cards in this classic memory game.</p>
-                                <ul class="game-features">
-                                    <li>1-4 Players</li>
-                                    <li>Multiple Difficulties</li>
-                                    <li>Brain Training</li>
-                                </ul>
-                            </div>
-                            <div class="game-stats">
-                                <span class="difficulty">Difficulty: Variable</span>
-                                <span class="duration">~3-8 min</span>
-                            </div>
-                            <button class="play-btn">Play Now</button>
-                        </div>
-
-                        <!-- Deck Browser Card -->
-                        <div class="game-card" data-game="deck-browser">
-                            <div class="game-card-header">
-                                <div class="game-icon">🔍</div>
-                                <h3 class="game-title">Browse Deck</h3>
-                            </div>
-                            <div class="game-description">
-                                <p>Explore all 52 cards in the deck with sorting and filtering options.</p>
-                                <ul class="game-features">
-                                    <li>View All Cards</li>
-                                    <li>Sort & Filter</li>
-                                    <li>Card Details</li>
-                                </ul>
-                            </div>
-                            <div class="game-stats">
-                                <span class="difficulty">Difficulty: None</span>
-                                <span class="duration">Browse freely</span>
-                            </div>
-                            <button class="play-btn">Browse Now</button>
-                        </div>
-
                     </div>
                 </div>
             </section>

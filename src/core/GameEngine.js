@@ -341,30 +341,7 @@ export class GameEngine {
         
         // Try to use background image for card face, fallback to text
         if (card.faceUp) {
-            const imagePath = card.getImagePath();
-            
-            // Create an image element to test if the image exists
-            const testImg = new Image();
-            console.log(`🎴 Attempting to load card image: ${imagePath} for ${card.getDisplayName()}`);
-            
-            testImg.onload = () => {
-                // Image exists, use it as background
-                console.log(`✅ Card image loaded successfully: ${imagePath}`);
-                faceEl.style.backgroundImage = `url('${imagePath}')`;
-                faceEl.style.backgroundSize = 'cover';
-                faceEl.style.backgroundPosition = 'center';
-                faceEl.style.backgroundRepeat = 'no-repeat';
-                faceEl.style.backgroundColor = 'white'; // Ensure white background for card images
-                // Remove text elements if they exist
-                const textElements = faceEl.querySelectorAll('.card-rank, .card-suit');
-                textElements.forEach(el => el.remove());
-            };
-            testImg.onerror = () => {
-                // Image doesn't exist, keep text fallback
-                console.log(`❌ Card image not found: ${imagePath}`);
-            };
-            
-            // Always create text elements as fallback (will be removed if image loads)
+            // Always create text elements as fallback first
             const rankEl = document.createElement('div');
             rankEl.className = 'card-rank';
             rankEl.textContent = card.rank;
@@ -376,8 +353,8 @@ export class GameEngine {
             faceEl.appendChild(rankEl);
             faceEl.appendChild(suitEl);
             
-            // Start loading the image
-            testImg.src = imagePath;
+            // Try to load image with multiple formats
+            this.tryLoadCardImage(card, faceEl);
         }
         
         // Create card back
@@ -406,6 +383,50 @@ export class GameEngine {
             'clubs': '♣'
         };
         return symbols[suit] || suit;
+    }
+
+    /**
+     * Try to load card image with multiple formats
+     * @param {Card} card - Card object
+     * @param {HTMLElement} faceEl - Card face element
+     */
+    tryLoadCardImage(card, faceEl) {
+        const possiblePaths = card.getPossibleImagePaths();
+        let pathIndex = 0;
+        
+        const tryNextPath = () => {
+            if (pathIndex >= possiblePaths.length) {
+                console.log(`❌ No card image found for ${card.getDisplayName()} - using text fallback`);
+                return;
+            }
+            
+            const imagePath = possiblePaths[pathIndex];
+            const testImg = new Image();
+            
+            console.log(`🎴 Trying to load card image: ${imagePath} for ${card.getDisplayName()}`);
+            
+            testImg.onload = () => {
+                console.log(`✅ Card image loaded successfully: ${imagePath}`);
+                faceEl.style.backgroundImage = `url('${imagePath}')`;
+                faceEl.style.backgroundSize = 'cover';
+                faceEl.style.backgroundPosition = 'center';
+                faceEl.style.backgroundRepeat = 'no-repeat';
+                faceEl.style.backgroundColor = 'white';
+                
+                // Remove text elements since we have an image
+                const textElements = faceEl.querySelectorAll('.card-rank, .card-suit');
+                textElements.forEach(el => el.remove());
+            };
+            
+            testImg.onerror = () => {
+                pathIndex++;
+                tryNextPath(); // Try next format
+            };
+            
+            testImg.src = imagePath;
+        };
+        
+        tryNextPath();
     }
 
     /**

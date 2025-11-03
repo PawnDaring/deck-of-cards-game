@@ -46,6 +46,9 @@ class CardGameApp {
             // Show initial screen
             this.showScreen('game-selection');
             
+            // Initialize orbiting cards animation
+            this.initOrbitingCards();
+            
             console.log('✅ Application initialized successfully');
             
             // Hide loading screen if visible
@@ -84,27 +87,18 @@ class CardGameApp {
      * Set up game selection events
      */
     setupGameSelectionEvents() {
-        const gameCards = document.querySelectorAll('.game-card');
+        const menuOptions = document.querySelectorAll('.menu-option');
         
-        gameCards.forEach(card => {
-            const playBtn = card.querySelector('.play-btn');
-            const gameType = card.dataset.game;
+        menuOptions.forEach(option => {
+            const gameType = option.dataset.game;
             
-            // Click on game card
-            card.addEventListener('click', (e) => {
-                if (e.target !== playBtn) {
-                    this.selectGame(gameType);
-                }
-            });
-            
-            // Click on play button
-            playBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
+            // Click on menu option to start game
+            option.addEventListener('click', () => {
                 this.startGame(gameType);
             });
             
             // Hover effects
-            card.addEventListener('mouseenter', () => {
+            option.addEventListener('mouseenter', () => {
                 this.soundManager.play('hover');
             });
         });
@@ -293,24 +287,6 @@ class CardGameApp {
             let useAlternateScreen = false;
             
             switch (gameType) {
-                case 'go-fish':
-                    try {
-                        const GoFishModule = await import('./games/GoFish.js');
-                        GameClass = GoFishModule.GoFish || GoFishModule.default;
-                    } catch (error) {
-                        console.error('Go Fish game not yet implemented');
-                        throw new Error('Go Fish game is coming soon!');
-                    }
-                    break;
-                case 'war':
-                    try {
-                        const WarModule = await import('./games/War.js');
-                        GameClass = WarModule.War || WarModule.default;
-                    } catch (error) {
-                        console.error('War game not yet implemented');
-                        throw new Error('War game is coming soon!');
-                    }
-                    break;
                 case 'memory':
                     const MemoryModule = await import('./games/Memory.js');
                     GameClass = MemoryModule.Memory || MemoryModule.default;
@@ -674,6 +650,65 @@ class CardGameApp {
         if (loading) {
             loading.classList.remove('active');
         }
+    }
+
+    /**
+     * Initialize orbiting cards animation
+     */
+    initOrbitingCards() {
+        const orbitingContainer = document.getElementById('orbiting-cards');
+        if (!orbitingContainer) return;
+
+        // Create a selection of cards to orbit
+        const cardSelection = [
+            { suit: 'spades', rank: 'A' },
+            { suit: 'hearts', rank: 'K' },
+            { suit: 'diamonds', rank: 'Q' },
+            { suit: 'clubs', rank: 'J' },
+            { suit: 'spades', rank: '10' },
+            { suit: 'hearts', rank: '9' },
+            { suit: 'diamonds', rank: '8' },
+            { suit: 'clubs', rank: '7' },
+            { suit: 'spades', rank: '6' },
+            { suit: 'hearts', rank: '5' },
+            { suit: 'diamonds', rank: '4' },
+            { suit: 'clubs', rank: '3' }
+        ];
+
+        // Suit symbols for display
+        const suitSymbols = {
+            'spades': '♠',
+            'hearts': '♥', 
+            'diamonds': '♦',
+            'clubs': '♣'
+        };
+
+        // Create orbiting cards
+        cardSelection.forEach((cardData, index) => {
+            const card = document.createElement('div');
+            card.className = 'orbit-card';
+            card.innerHTML = `${cardData.rank}${suitSymbols[cardData.suit]}`;
+            
+            // Set initial position around the circle
+            const angle = (index / cardSelection.length) * 360;
+            card.style.transform = `rotate(${angle}deg) translateX(200px) rotate(-${angle}deg)`;
+            
+            // Stagger animation delays for organic movement
+            card.style.animationDelay = `${index * -1.67}s`; // Spread across 20s animation
+            
+            // Add color based on suit
+            if (cardData.suit === 'hearts' || cardData.suit === 'diamonds') {
+                card.style.color = 'var(--card-red)';
+                card.style.borderColor = 'rgba(255, 107, 157, 0.4)';
+                card.style.boxShadow = '0 0 15px rgba(255, 107, 157, 0.3)';
+            } else {
+                card.style.color = 'var(--card-black)';
+                card.style.borderColor = 'rgba(0, 212, 255, 0.4)';
+                card.style.boxShadow = '0 0 15px rgba(0, 212, 255, 0.3)';
+            }
+            
+            orbitingContainer.appendChild(card);
+        });
     }
 
     /**

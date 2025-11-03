@@ -1,0 +1,310 @@
+/* Neon Blacklight Theme Styles */
+
+/* Neon Header */
+.neon-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-header);
+    background: rgba(10, 10, 15, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    padding: var(--spacing-sm) 0;
+}
+
+.neon-header .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.neon-nav {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.neon-btn {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: var(--radius-medium);
+    padding: var(--spacing-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: var(--glow-blue);
+    transform: translateY(-2px);
+}
+
+.neon-btn:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: neon-sweep 0.5s ease-in-out;
+}
+
+.neon-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+/* Neon Menu Container */
+.neon-menu-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxl) var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Central Menu */
+.central-menu {
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.neon-title {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    margin-bottom: var(--spacing-xxl);
+    line-height: 0.9;
+}
+
+.title-glow {
+    display: block;
+    color: var(--secondary-color);
+    text-shadow: var(--glow-blue);
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+}
+
+.title-cards {
+    display: block;
+    color: var(--accent-color);
+    text-shadow: var(--glow-purple);
+    animation: neon-pulse 2s ease-in-out infinite alternate-reverse;
+}
+
+/* Menu Options */
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.menu-option {
+    position: relative;
+    background: rgba(26, 26, 46, 0.8);
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: var(--radius-large);
+    padding: var(--spacing-lg);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.menu-option:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--secondary-color);
+    box-shadow: 
+        0 10px 30px rgba(0, 212, 255, 0.3),
+        0 0 50px rgba(0, 212, 255, 0.2);
+}
+
+.menu-option:nth-child(even):hover {
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 10px 30px rgba(123, 104, 238, 0.3),
+        0 0 50px rgba(123, 104, 238, 0.2);
+}
+
+.option-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 212, 255, 0.1), 
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.menu-option:hover .option-glow {
+    left: 100%;
+}
+
+.option-content {
+    position: relative;
+    z-index: 2;
+}
+
+.option-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+.option-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+    text-shadow: 0 0 10px currentColor;
+}
+
+.option-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Orbiting Cards */
+.orbiting-cards {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80vmin;
+    height: 80vmin;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.orbit-card {
+    position: absolute;
+    width: 40px;
+    height: 56px;
+    background: linear-gradient(145deg, 
+        rgba(26, 26, 46, 0.9), 
+        rgba(45, 45, 74, 0.9)
+    );
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    animation: orbit-float 20s linear infinite;
+}
+
+.orbit-card:nth-child(odd) {
+    border-color: rgba(123, 104, 238, 0.4);
+    box-shadow: 0 0 15px rgba(123, 104, 238, 0.3);
+}
+
+.orbit-card:nth-child(3n) {
+    border-color: rgba(255, 107, 157, 0.4);
+    box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+/* Animations */
+@keyframes neon-pulse {
+    0% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor; }
+    100% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
+}
+
+@keyframes neon-sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes orbit-float {
+    0% { 
+        transform: rotate(0deg) translateX(200px) rotate(0deg);
+        opacity: 0.6;
+    }
+    50% { 
+        opacity: 1;
+    }
+    100% { 
+        transform: rotate(360deg) translateX(200px) rotate(-360deg);
+        opacity: 0.6;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .neon-title {
+        font-size: clamp(2rem, 12vw, 4rem);
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .menu-options {
+        max-width: 300px;
+        gap: var(--spacing-md);
+    }
+    
+    .menu-option {
+        padding: var(--spacing-md);
+    }
+    
+    .option-icon {
+        font-size: 2rem;
+    }
+    
+    .option-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .orbiting-cards {
+        width: 70vmin;
+        height: 70vmin;
+    }
+    
+    .orbit-card {
+        width: 30px;
+        height: 42px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .neon-menu-container {
+        padding: var(--spacing-xl) var(--spacing-sm);
+    }
+    
+    .menu-options {
+        max-width: 280px;
+    }
+    
+    .orbiting-cards {
+        width: 60vmin;
+        height: 60vmin;
+    }
+}
+
+/* Dark theme card colors override */
+.card.red .card-rank,
+.card.red .card-suit {
+    color: var(--card-red);
+    text-shadow: 0 0 5px var(--card-red);
+}
+
+.card.black .card-rank,
+.card.black .card-suit {
+    color: var(--card-black);
+    text-shadow: 0 0 5px var(--card-black);
+}
