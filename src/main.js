@@ -685,30 +685,121 @@ class CardGameApp {
 
         // Create orbiting cards
         cardSelection.forEach((cardData, index) => {
-            const card = document.createElement('div');
-            card.className = 'orbit-card';
-            card.innerHTML = `${cardData.rank}${suitSymbols[cardData.suit]}`;
+            // Create a Card object
+            const cardObj = new Card(cardData.suit, cardData.rank);
+            cardObj.turnFaceUp(); // Make sure it's face up to show images
+            
+            // Create the orbit card element using the card system
+            const card = this.createOrbitCardElement(cardObj, index);
             
             // Set initial position around the circle
             const angle = (index / cardSelection.length) * 360;
-            card.style.transform = `rotate(${angle}deg) translateX(200px) rotate(-${angle}deg)`;
+            card.style.transform = `rotate(${angle}deg) translateX(250px) rotate(-${angle}deg)`;
             
             // Stagger animation delays for organic movement
             card.style.animationDelay = `${index * -1.67}s`; // Spread across 20s animation
             
-            // Add color based on suit
-            if (cardData.suit === 'hearts' || cardData.suit === 'diamonds') {
-                card.style.color = 'var(--card-red)';
-                card.style.borderColor = 'rgba(255, 107, 157, 0.4)';
-                card.style.boxShadow = '0 0 15px rgba(255, 107, 157, 0.3)';
-            } else {
-                card.style.color = 'var(--card-black)';
-                card.style.borderColor = 'rgba(0, 212, 255, 0.4)';
-                card.style.boxShadow = '0 0 15px rgba(0, 212, 255, 0.3)';
-            }
-            
             orbitingContainer.appendChild(card);
         });
+    }
+
+    /**
+     * Create an orbiting card element with image support
+     * @param {Card} cardObj - Card object
+     * @param {number} index - Card index
+     * @returns {HTMLElement} Orbit card element
+     */
+    createOrbitCardElement(cardObj, index) {
+        const card = document.createElement('div');
+        card.className = 'orbit-card';
+        
+        // Create card face with image support
+        const faceEl = document.createElement('div');
+        faceEl.className = 'orbit-card-face';
+        faceEl.style.width = '100%';
+        faceEl.style.height = '100%';
+        faceEl.style.borderRadius = 'inherit';
+        faceEl.style.display = 'flex';
+        faceEl.style.alignItems = 'center';
+        faceEl.style.justifyContent = 'center';
+        faceEl.style.position = 'relative';
+        faceEl.style.overflow = 'hidden';
+        
+        // Try to load card image with multiple formats
+        this.tryLoadOrbitCardImage(cardObj, faceEl);
+        
+        card.appendChild(faceEl);
+        
+        // Add color based on suit for border glow
+        if (cardObj.suit === 'hearts' || cardObj.suit === 'diamonds') {
+            card.style.borderColor = 'rgba(255, 107, 157, 0.4)';
+            card.style.boxShadow = '0 0 15px rgba(255, 107, 157, 0.3)';
+        } else {
+            card.style.borderColor = 'rgba(0, 212, 255, 0.4)';
+            card.style.boxShadow = '0 0 15px rgba(0, 212, 255, 0.3)';
+        }
+        
+        return card;
+    }
+
+    /**
+     * Try to load card image for orbit cards with fallback
+     * @param {Card} cardObj - Card object
+     * @param {HTMLElement} faceEl - Face element
+     */
+    tryLoadOrbitCardImage(cardObj, faceEl) {
+        const possibleExtensions = ['png', 'jpg', 'jpeg'];
+        let loadedSuccessfully = false;
+        
+        const tryNextExtension = (extIndex) => {
+            if (extIndex >= possibleExtensions.length || loadedSuccessfully) {
+                if (!loadedSuccessfully) {
+                    // Fallback to text display
+                    this.setOrbitCardFallback(cardObj, faceEl);
+                }
+                return;
+            }
+            
+            const ext = possibleExtensions[extIndex];
+            const imagePath = `assets/cards/suits/${cardObj.suit}/${cardObj.rank}.${ext}`;
+            
+            const testImg = new Image();
+            testImg.onload = () => {
+                if (!loadedSuccessfully) {
+                    loadedSuccessfully = true;
+                    faceEl.style.backgroundImage = `url('${imagePath}')`;
+                    faceEl.style.backgroundSize = 'cover';
+                    faceEl.style.backgroundPosition = 'center';
+                    faceEl.style.backgroundRepeat = 'no-repeat';
+                }
+            };
+            testImg.onerror = () => {
+                tryNextExtension(extIndex + 1);
+            };
+            testImg.src = imagePath;
+        };
+        
+        tryNextExtension(0);
+    }
+
+    /**
+     * Set fallback text display for orbit cards
+     * @param {Card} cardObj - Card object  
+     * @param {HTMLElement} faceEl - Face element
+     */
+    setOrbitCardFallback(cardObj, faceEl) {
+        const suitSymbols = {
+            'spades': '♠',
+            'hearts': '♥', 
+            'diamonds': '♦',
+            'clubs': '♣'
+        };
+        
+        faceEl.innerHTML = `${cardObj.rank}${suitSymbols[cardObj.suit]}`;
+        faceEl.style.fontSize = '0.8rem';
+        faceEl.style.fontWeight = 'bold';
+        faceEl.style.color = cardObj.isRed() ? 'var(--card-red)' : 'var(--card-black)';
+        faceEl.style.textShadow = '0 0 5px currentColor';
     }
 
     /**

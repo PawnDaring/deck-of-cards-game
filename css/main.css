@@ -2,7 +2,7 @@
 :root {
     /* Blacklight Neon Color Palette */
     --primary-color: #0a0a0f;
-    --secondary-color: #00d4ff;
+    --secondary-color: #ff00f2;
     --accent-color: #7b68ee;
     --success-color: #00ff88;
     --warning-color: #ff6b9d;
@@ -25,16 +25,16 @@
     --text-light: #ffffff;
     --text-muted: #8888cc;
     
-    /* Neon Shadows & Glows */
-    --shadow-small: 0 0 10px rgba(0, 212, 255, 0.3);
-    --shadow-medium: 0 0 20px rgba(0, 212, 255, 0.4);
-    --shadow-large: 0 0 30px rgba(0, 212, 255, 0.5);
-    --shadow-card: 0 0 15px rgba(123, 104, 238, 0.4);
+    /* Minimalistic Shadows */
+    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-large: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.3);
     
-    /* Neon Glow Effects */
-    --glow-blue: 0 0 5px var(--secondary-color), 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
-    --glow-purple: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
-    --glow-pink: 0 0 5px var(--warning-color), 0 0 10px var(--warning-color), 0 0 20px var(--warning-color);
+    /* Clean Mobile App Effects */
+    --glow-blue: 0 0 1px var(--card-black);
+    --glow-purple: 0 0 1px var(--accent-color);
+    --glow-pink: 0 0 1px var(--secondary-color);
     
     /* Border Radius */
     --radius-small: 4px;
